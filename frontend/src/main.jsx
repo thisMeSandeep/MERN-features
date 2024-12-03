@@ -1,10 +1,13 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.jsx'
+import MyRouter from './routing/Router.jsx'
+import BookContextProvider from './context/Book.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <BookContextProvider>
+      <MyRouter />
+    </BookContextProvider>
   </StrictMode>,
 )
