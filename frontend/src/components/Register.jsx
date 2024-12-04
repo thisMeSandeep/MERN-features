@@ -3,15 +3,18 @@ import { Link } from "react-router-dom";
 import { RxCross1 } from "react-icons/rx";
 import { useContext } from "react";
 import { BookContext } from "../context/Book";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const navigate = useNavigate();
 
   const { isVisible, setIsVisible } = useContext(BookContext);
 
   const onSubmit = (data) => {
     console.log(data);
+    navigate('/')
   }
 
   return (
