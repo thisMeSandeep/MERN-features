@@ -53,5 +53,72 @@ export const userRegisterController = async (req, res) => {
   }
 };
 
+// User login
 
-//login
+export const userLoginController = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    // Check if all fields are available
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
+    }
+
+    // Find user by email
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Credentials not found",
+      });
+    }
+
+    // Compare password
+    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    if (!isPasswordMatch) {
+      return res.status(400).json({
+        success: false,
+        message: "Password did not match",
+      });
+    }
+
+    // Generate token
+    generateAccessToken(res, user);
+
+    return res.status(200).json({
+      success: true,
+      message: "Login Successful",
+      username: user.username,
+    });
+  } catch (error) {
+    console.error("Login error:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+//logout user
+
+export const userLogoutController = async (req, res) => {
+  try {
+    const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
+    };
+    res.clearCookie("token", cookieOptions);  //clear cookie
+    res.status(200).json({
+      success: true,
+      message: "Logout Successfull",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
