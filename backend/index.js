@@ -6,14 +6,13 @@ import helmet from "helmet";
 import cors from "cors";
 import connectDb from "./config/db.js";
 import userRouter from "./routes/user.routes.js";
-
+import bookRouter from "./routes/book.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: "http://localhost:5173",
   credentials: true,
 };
 
@@ -26,7 +25,7 @@ app.use(helmet());
 //routes
 
 app.use("/api/auth", userRouter);
-
+app.use("/api/books", bookRouter);
 
 connectDb()
   .then(() => {
