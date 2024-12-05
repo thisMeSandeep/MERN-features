@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useEffect } from "react";
 import { useState } from "react";
 import axios from "axios"
 
@@ -7,6 +7,11 @@ export const BookContext = createContext();
 
 const BookContextProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [category, setCategory] = useState('');
+    const [page, setPage] = useState();
+    const [limit, setLimit] = useState(10);
+    const [books, setBooks] = useState([]);
+    const [totalPages, setTotalPages] = useState();
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -25,13 +30,32 @@ const BookContextProvider = ({ children }) => {
         }
     };
 
-    //
+    //fetch books
+    const fetchBooks = async () => {
+        try {
+            const response = await axios.get(`${backendUrl}/api/books?category=${category}&page=${page}&limit=${limit}`);
+            setBooks([...response.data.books]);
+            setTotalPages(response.data.totalPages)
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
+
+    useEffect(() => {
+        fetchBooks();
+    }, [category , page])
+
 
     const value = {
         user,
         setUser,
         backendUrl,
-        logout
+        logout,
+        fetchBooks,
+        books,
+        setCategory,
+        setPage,
+        totalPages,
     }
 
     return (
