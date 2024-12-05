@@ -9,7 +9,6 @@ const App = () => {
   return (
     <>
       <Navbar />
-      <Login />
       <Outlet />
       {/* <Footer /> */}
     </>

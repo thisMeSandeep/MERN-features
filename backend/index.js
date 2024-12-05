@@ -7,13 +7,14 @@ import cors from "cors";
 import connectDb from "./config/db.js";
 import userRouter from "./routes/user.routes.js";
 
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-//cors options
+
 const corsOptions = {
-  origin: "*",
-  Credential: true,
+  origin: 'http://localhost:5173',
+  credentials: true,
 };
 
 //middleware
@@ -25,6 +26,7 @@ app.use(helmet());
 //routes
 
 app.use("/api/auth", userRouter);
+
 
 connectDb()
   .then(() => {

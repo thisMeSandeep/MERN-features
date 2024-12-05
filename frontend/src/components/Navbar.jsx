@@ -4,12 +4,23 @@ import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { BookContext } from "../context/Book";
+import { useNavigate } from "react-router-dom";
+
 
 const Navbar = () => {
-  const [user, setUser] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const { setIsVisible } = useContext(BookContext);
+  const navigate = useNavigate();
+
+  const { user, logout } = useContext(BookContext);
+
+
+  //handle logout
+
+  const handleLogout = () => {
+    logout();
+    navigate('/')
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,9 +58,12 @@ const Navbar = () => {
       </div>
 
       {/* auth */}
-      <div>
+
+
+      <div className="flex items-center gap-5">
+        {user && (<p className="underline underline-offset-2 font-semibold">Welcome {user}</p>)}
         {user ? (
-          <div className="bg-orange-500 px-5 sm:px-10 py-2 rounded-3xl text-lg font-semibold text-white hover:bg-orange-600 cursor-auto">
+          <div className="bg-orange-500 px-5 sm:px-10 py-2 rounded-3xl text-lg font-semibold text-white hover:bg-orange-600 cursor-pointer" onClick={handleLogout}>
             Logout
           </div>
         ) : (
