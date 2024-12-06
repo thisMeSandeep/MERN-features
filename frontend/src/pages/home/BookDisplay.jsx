@@ -16,7 +16,7 @@ const BookDisplay = () => {
             <div className="flex  items-center  gap-5 flex-wrap">
                 {books.map((book, index) => (
 
-                    <Link key={index} className="border shadow w-[300px] h-[200px]  px-5 py-2 rounded-sm hover:scale-105 transition-all duration-300 ">
+                    <Link to={`book/${book._id}`} key={index} className="border shadow w-[300px] h-[200px]  px-5 py-2 rounded-sm hover:scale-105 transition-all duration-300 ">
                         <p>Title: <span className="font-semibold">{book.title}</span></p>
                         <p>Author:{book.author}</p>
                         <p>Price: $<span className="font-semibold">{book.price}</span></p>
